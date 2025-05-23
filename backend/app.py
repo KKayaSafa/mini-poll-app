@@ -3,11 +3,13 @@ import mysql.connector
 from flask import Flask, request, render_template_string
 from dotenv import load_dotenv
 
-# .env dosyasını yükle
+# .env dosyasındaki ortam değişkenlerini yükle
 load_dotenv()
 
+# Flask uygulamasını başlat
 app = Flask(__name__)
 
+# Anket soruları listesi
 QUESTIONS = [
     "Bu projeyi faydalı buldum.",
     "Docker kullanımı kolaydı.",
@@ -21,6 +23,8 @@ QUESTIONS = [
     "Bu teknolojileri tekrar kullanırım."
 ]
 
+# HTML + CSS + JS içeren form şablonu
+# Dark mode butonu eklendi, görünüm modernleştirildi
 FORM_TEMPLATE = """
 <!doctype html>
 <html lang="en">
@@ -116,16 +120,25 @@ FORM_TEMPLATE = """
       {% endif %}
     </div>
 
+    <!-- Dark mode tercihinin kalıcılığı için localStorage kullanılıyor -->
     <script>
       function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      }
+
+      // Sayfa yüklenince tema tercihi uygulanıyor
+      window.onload = function () {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.body.classList.add('dark-mode');
+        }
       }
     </script>
   </body>
 </html>
 """
 
-
+# Veritabanı bağlantısı için yardımcı fonksiyon
 def get_db_connection():
     return mysql.connector.connect(
         host=os.getenv("MYSQL_HOST"),
@@ -134,12 +147,15 @@ def get_db_connection():
         database=os.getenv("MYSQL_DATABASE")
     )
 
+# Ana route: hem formu gösterir hem de gönderilen verileri işler
 @app.route("/", methods=["GET", "POST"])
 def survey():
     submitted = False
     if request.method == "POST":
+        # Formdan gelen yanıtları sırayla al
         answers = [request.form.get(f"q{i}") for i in range(10)]
         try:
+            # Veritabanına bağlan ve INSERT işlemi yap
             conn = get_db_connection()
             cursor = conn.cursor()
             cursor.execute("""
@@ -152,8 +168,10 @@ def survey():
             conn.close()
             submitted = True
         except Exception as e:
-            print("Hata:", e)
+            print("Hata:", e)  # Hata terminale yazdırılır
+    # Form sayfası render edilir, anket soruları ve durum bilgisi gönderilir
     return render_template_string(FORM_TEMPLATE, questions=QUESTIONS, submitted=submitted)
 
+# Uygulama doğrudan çalıştırıldığında başlatılır
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
