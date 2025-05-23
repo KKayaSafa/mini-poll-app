@@ -1,0 +1,19 @@
+# Python virtual environment
+venv/
+
+# Environment variables
+.env
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+
+# Docker files
+*.log
+*.pid
+*.sock
