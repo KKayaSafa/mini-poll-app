@@ -1,48 +1,60 @@
+
 # 🗳️ Mini Survey App with Flask & MySQL
 
-This is a simple survey web application built using **Flask** (Python) and **MySQL**, fully containerized with **Docker Compose**.  
-Users can respond to 10 predefined questions using radio buttons: **Agree**, **Neutral**, or **Disagree**. Their answers are stored in a MySQL database.
+A lightweight, containerized survey web application built with **Flask** and **MySQL** using **Docker Compose**.  
+Users can answer 10 predefined questions using radio buttons (**Agree**, **Neutral**, **Disagree**), and their responses are stored in a MySQL database.
 
 ---
 
 ## 📦 Features
 
-- ✅ 10-question survey form
-- ✅ Radio button options for each question
-- ✅ Responses saved to MySQL
-- ✅ Dockerized architecture (Flask + MySQL in separate containers)
-- ✅ Uses `.env` for secure configuration
+- ✅ 10-question survey form  
+- ✅ Radio button options (Agree / Neutral / Disagree)  
+- ✅ Responses stored in a MySQL database  
+- ✅ Fully containerized using Docker Compose (Flask & MySQL in separate containers)  
+- ✅ Secure configuration using a `.env` file  
 
 ---
 
 ## ⚙️ Tech Stack
 
-- **Backend**: Python 3.12 + Flask
-- **Database**: MySQL 8
-- **Containerization**: Docker & Docker Compose
-- **Environment Configuration**: python-dotenv
+- **Backend**: Python 3.12 + Flask  
+- **Database**: MySQL 8  
+- **Containerization**: Docker & Docker Compose  
+- **Configuration Management**: python-dotenv  
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/mini-poll-app.git
+git clone https://github.com/KKayaSafa/mini-poll-app.git
 cd mini-poll-app
+```
 
-### 2. Create a .env file in the project root:
+### 2. Create a `.env` File
 
+In the root of the project, create a file named `.env` and add the following:
+
+```env
 MYSQL_ROOT_PASSWORD=rootpass
 MYSQL_DATABASE=surveydb
 MYSQL_USER=surveyuser
 MYSQL_PASSWORD=surveypass
+```
 
-### 3. Build and run with Docker Compose
+### 3. Build and Run the Containers
 
+```bash
 docker-compose up --build
+```
 
-### 4. Access the web app
+### 4. Access the Web Application
 
+Open your browser and navigate to:
+
+```
 http://localhost:5000
+```
